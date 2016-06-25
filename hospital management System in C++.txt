@@ -1,0 +1,167 @@
+#include <conio.h>
+#include <iostream>
+#include <cstring>
+#include <string>
+#include <fstream>
+using namespace std;
+//////////////////////////////patient class/////////////////////////
+class patient
+{
+	private:
+		char fname[10];
+      char lname[10];
+		char pname[20];
+      char gender[6];
+      int age;
+      char city[15];
+		int phoneno;
+      char ptype[10];
+   public:
+      void getdata()
+      {
+      cout<<"\n\t\tEnter all information about Patient";
+      cout<<"\nEnter First Name\t\t:";
+   	cin>>fname;
+      cout<<"Enter Last Name\t\t\t:";
+   	cin>>lname;
+      cout<<"Enter Father Name\t\t:";
+   	cin>>pname;
+   	cout<<"Enter Gender (male/female)\t:";
+   	cin>>gender;
+   	cout<<"Enter Age\t\t\t:";
+   	cin>>age;
+   	cout<<"Enter City\t\t\t:";
+   	cin>>city;
+   	cout<<"Enter Phone Number\t\t:";
+      cin>>phoneno;
+   	cout<<"Patient Type (On pannel/Private):";
+   	cin>>ptype;
+      }
+   	void showdata()
+      {
+			cout<<"\n\nPatient First Name   :"<<fname;
+         cout<<"\nPatient Last Name    :"<<lname;
+  		 	cout<<"\nFather Name          :"<<pname;
+			cout<<"\nGender               :"<<gender;
+		   cout<<"\nAge                  :"<<age;
+		   cout<<"\nAddress              :"<<city;
+		   cout<<"\nPhone Number         :"<<phoneno;
+		   cout<<"\nPatient Type         :"<<ptype;
+      }
+};
+/////////////////////////////////////////////////////////////////////////
+
+////////////////////////////doctor class/////////////////////////////
+class doctor
+
+{
+	private:
+   	char dfname[20];
+      char dlname[20];
+      char dgender[20];
+      int dphoneno;
+      char dept[10];
+   public:
+   	void getdata()
+      {
+      cout<<"\n\t\tEnter all information about Doctor";
+      cout<<"\nEnter First Name\t\t:";
+   	cin>>dfname;
+      cout<<"Enter Last Name\t\t\t:";
+   	cin>>dlname;
+      cout<<"Enter Gender (male/female)\t:";
+   	cin>>dgender;
+      cout<<"Enter Phone Number\t\t:";
+      cin>>dphoneno;
+   	cout<<"Enter Department\t\t:";
+   	cin>>dept;
+      }
+   	void showdata()
+      {
+      	cout<<"\n\nDoctor First Name  :"<<dfname;
+         cout<<"\nDoctor Last Name   :"<<dlname;
+			cout<<"\nGender             :"<<dgender;
+		   cout<<"\nPhone Number       :"<<dphoneno;
+		   cout<<"\nDepartment         :"<<dept;
+      }
+};
+
+int main()
+{
+	patient p;
+   doctor d;
+   char ch,exit;
+   int choice;
+   fstream file;
+   file.open("hospital.dat",ios::in|ios::out|ios::app|ios::binary);
+
+  do{
+          //clrscr();
+          cout<<"\n\t\t\t\"HOSPITAL DATABASE MAIN\""<<endl;
+	 cout<<"\n\n\t\t\t[1]-Write patient record ";
+          cout<<"\n\n\t\t\t[2]-Write doctor record ";
+          cout<<"\n\n\t\t\t[3]-Reading patient record ";
+          cout<<"\n\n\t\t\t[4]-Reading doctor record ";
+          cout<<"\n\n\t\t\t[5]-Exit from program ";
+          cout<<"\n\n\t\t\t    Enter Choice = ";
+          cin>>choice;
+
+   if(choice==1)
+   			{
+            do
+            {
+           // clrscr();
+            p.getdata();
+            file.write(reinterpret_cast<char*>(&p),sizeof(p));
+   			cout<<"\n\nEnter another or not (y/n)?";
+  				 cin>>ch;
+            }while(ch=='y');
+            cout<<"\n\n\t\tPress enter to go to Main menu";
+           }
+
+   if(choice==2)
+   		{
+          do
+          {
+           // clrscr();
+        		 d.getdata();
+   			file.write(reinterpret_cast<char*>(&d),sizeof(d));
+   			cout<<"\n\nEnter another or not (y/n)?";
+  				 cin>>ch;
+           }while(ch=='y');
+           cout<<"\n\n\t\tPress enter to go to Main menu";
+      	}
+
+   if(choice==3)
+   			{
+            file.seekg(0);
+   			file.read(reinterpret_cast<char*>(&p),sizeof(p));
+             while(!file.eof())
+   				{
+					 p.showdata();
+            	 file.read(reinterpret_cast<char*>(&p),sizeof(p));
+   				}   //end of while
+   			cout<<endl;
+             getche();
+           	} //end of if
+
+   if(choice==4)
+      		{
+      		file.seekg(0);
+   			file.read(reinterpret_cast<char*>(&d),sizeof(d));
+   			while(!file.eof())
+   				{
+				 	d.showdata();
+             	file.read(reinterpret_cast<char*>(&d),sizeof(d));
+   				}//end of while
+   			cout<<endl;
+            getche();
+      		} //end of if
+   if(choice==5)
+   		{
+         cout<<"\n\n\t\tThanks for using program ";
+         }
+  }while(choice!=5);
+}
+
+
